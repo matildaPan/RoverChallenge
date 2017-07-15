@@ -28,9 +28,8 @@ stdin.addListener("data", function(d) {
                 }else {
                     bound.xBound = parseInt(inputArray[0]);
                     bound.yBound = parseInt(inputArray[1]);
-                    rover = new Rover(bound);
+                    startNewRover();
                     stage = stageType.waitingForCoordinate;
-                    console.log("Please input rover position:");
                 }
                 break;
             case stageType.waitingForCoordinate:
@@ -39,9 +38,8 @@ stdin.addListener("data", function(d) {
                 if(!validateCoordinateValue){
                     console.log("Invalid coordinate, please enter again:");
                 }else {
-                    rover.setPosition(inputArray);
-                    let isCoordinateWithinBound = rover.coordinateWithinBound(rover.position);
-                    if(!isCoordinateWithinBound){
+                    let result = rover.setPosition(inputArray);
+                    if(!result){
                         console.log('rover position is out of bound, please enter again:');
                     }else{
                         stage = stageType.waitingForCommand;
@@ -52,27 +50,27 @@ stdin.addListener("data", function(d) {
             case stageType.waitingForCommand:
                 let instructionStr = d.toString().trim();
                 let moveResult = rover.explore(instructionStr);
-                if(moveResult == 'invalid instruction'){
+                if(moveResult == Rover.movementResult.invalidInstruction){
                     console.log("Invalid instruction, please enter again:");
                 }
-                else if(moveResult == 'out of bound'){
-                    console.log("Rover is out of bound, please input rover position again:");
-                }else {
+                else if(moveResult == Rover.movementResult.outOfBound){
+                    console.log("Rover is out of bound, please reset position again:");
+                }else{
                     console.log("Current rover position: " + rover.position.x + " " + rover.position.y + " " + rover.position.direction);
-                    console.log("Please input rover new position: ");
-                    rover = new Rover(bound);
-                    stage = stage.waitingForCoordinate;
-                    break;
                 }
-
-
+                startNewRover();
+                stage = stageType.waitingForCoordinate;
+                break;
+            default:
+                console.log("Unexpected Error!!!")
         }
-
     }
-
-
 });
 
+function startNewRover() {
+    console.log("Please input rover new position: ");
+    rover = new Rover(bound);
+}
 
 function validateBound(boundArray) {
     if(boundArray.length != 2){
