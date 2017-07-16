@@ -72,7 +72,6 @@ class Rover{
                 newPosition.x += 1;
                 break;
         }
-
         if (this.coordinateWithinBound(newPosition)){
             this.position = newPosition;
             return true;
@@ -90,7 +89,6 @@ class Rover{
             y: coordinateY,
             direction: direction
         };
-
         if (this.coordinateWithinBound(newPosition)){
             this.position = newPosition;
             return true;
@@ -103,7 +101,8 @@ class Rover{
     coordinateWithinBound(position) {
         let boundX = this.bound.xBound;
         let boundY = this.bound.yBound;
-        return (position.x <= boundX) && (position.y <= boundY);
+        return (position.x <= boundX && position.x >= 0)
+            && (position.y <= boundY && position.y >= 0);
     }
 
     validateInstruction(instructionArray){
