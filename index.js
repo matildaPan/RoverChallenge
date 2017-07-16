@@ -1,6 +1,6 @@
 const Rover = require('./rover.js');
 const stdin = process.openStdin();
-console.log("To terminate this program, please press q\n");
+console.log("To terminate this program, please input q\n");
 console.log("Please input the upper-right coordinates of the plateau: ");
 
 var stageType = {
