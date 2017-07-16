@@ -1,6 +1,6 @@
 # Mars Rover Challenge
 ### Environment requirement:
-* node version is at the least 6.10 .0
+* node version should be at the least 6.10 .0
 ```sh
 $ node -v
 v6.10.0
